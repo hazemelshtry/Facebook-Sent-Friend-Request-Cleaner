@@ -41,7 +41,11 @@ If Facebook shows another **Friend requests** entry in the intermediate screen, 
 
 ### 2. Copy the script
 
-Open the JavaScript (`.js`) file in this repository. Select **Raw**, then copy the complete script. Copy only the JavaScript, not this README or the surrounding GitHub page.
+Open [Facebook-Sent-Friend-Request-Cleaner.js](https://github.com/hazemelshtry/Facebook-Sent-Friend-Request-Cleaner/blob/main/Facebook-Sent-Friend-Request-Cleaner.js), then select **Raw**.
+
+You can also [open the raw code directly](https://raw.githubusercontent.com/hazemelshtry/Facebook-Sent-Friend-Request-Cleaner/main/Facebook-Sent-Friend-Request-Cleaner.js). Copy the entire script, from the opening `(function () {` to the final `})();`. If the browser downloads the file, open it in a plain-text editor and copy its contents.
+
+Return to your Facebook tab before continuing. Paste the code into Facebook’s Console, not the Console on GitHub or the raw-code page.
 
 ### 3. Open the browser Console
 
@@ -52,7 +56,7 @@ On the Facebook tab:
 3. Review the script before pasting it. Console code runs inside your signed-in page; only run code you understand and trust.
 4. Paste the script with **Ctrl + V** and press **Enter**.
 
-If Chrome displays its self-XSS paste warning, read it first. If you have reviewed the script and choose to proceed, follow the Console’s instruction to type `allow pasting` manually and press Enter, then paste the script again. This step is only for the warning when it appears; it is not a Facebook command. See [Chrome’s explanation of the warning](https://developer.chrome.com/blog/self-xss).
+If Chrome displays its self-XSS paste warning, read it first. If you have reviewed the script and choose to proceed, follow the Console’s instruction to type `allow pasting` manually and press Enter, then paste the script again and press **Enter** to run it. This step is only for the warning when it appears; it is not a Facebook command. See [Chrome’s explanation of the warning](https://developer.chrome.com/blog/self-xss).
 
 ### 4. Start the cleanup
 
@@ -67,7 +71,9 @@ The **Cancel Sent Requests** panel appears in the top-right corner.
 
 Press **Start** once and monitor the page. If Facebook displays an error or action restriction, stop the process instead of repeatedly retrying.
 
-Do not rapidly alternate Stop and Start or paste a second copy while the script is running. For a clean restart, stop the process, reload Facebook, reopen **View sent requests**, and run the script again. Reloading also removes the injected panel and resets its counter.
+**Run only one copy at a time.** Pasting the script again removes the old panel but does not stop its running process. The new Stop button does not control that old process. Rapidly pressing Stop and then Start can also leave overlapping runs.
+
+For a clean restart, press Stop, reload Facebook, reopen **View sent requests**, and run the script once. Reloading removes the panel, ends the old page’s script execution, and resets the counter.
 
 ### 5. Verify the result
 
@@ -79,7 +85,8 @@ After the process stops:
 
 An empty list after reloading is the result to check. The panel’s completion message alone is not proof that Facebook accepted every cancellation.
 
-## How it works
+<details>
+<summary><strong>Technical details</strong></summary>
 
 The script looks for a dialog containing “sent requests” or a matching Cancel request button. It clicks connected buttons with a non-zero rendered size, then tries to scroll when no matching button is available.
 
@@ -92,6 +99,8 @@ The supplied code uses:
 - A completion condition based on three scroll checks without detected progress
 
 These timings are implementation details, not a guaranteed processing speed or protection against Facebook restrictions. No configuration changes are needed to follow the demonstrated workflow.
+
+</details>
 
 ## Troubleshooting
 
@@ -108,7 +117,7 @@ These timings are implementation details, not a guaranteed processing speed or p
 
 This is a page-automation script, not an official Facebook API integration. Facebook can change its labels, dialogs, or scrolling behaviour, so compatibility with every account or future interface is not guaranteed.
 
-The script does not verify successful cancellations with Facebook’s server. A button that remains available after a failed action may be clicked again. Monitor the run and use the refreshed list to verify the outcome.
+If a cancellation fails and its button remains available, the script may keep clicking the same request. It does not automatically detect Facebook action restrictions; stop the process if you see a warning or repeated failed actions.
 
 It cannot stop someone from accepting a request that Facebook already processed before cancellation. It also cannot reverse friendships that already exist or guarantee that you will never receive another request-acceptance notification.
 
